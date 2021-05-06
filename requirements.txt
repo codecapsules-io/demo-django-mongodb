@@ -26,3 +26,8 @@ msql==1.2.2
 whitenoise==5.2.0
 
 cryptography
+
+
+#dj-mongo
+dj-mongo-database-url
+djongo

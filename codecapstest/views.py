@@ -9,8 +9,11 @@ from .models import testModel
 @csrf_exempt
 def index(request):
     tm = testModel.objects.first()
-    if not tm:
-        tm = testModel(testField='', testField2=0)
+    if not tm or tm.id is None:
+        tm = testModel()
+        tm.testField = ''
+        tm.testField2 = 0
+        tm.id = 1
         tm.save()
     fileValue = readFile()
     if request.method == 'POST':
@@ -18,10 +21,10 @@ def index(request):
             writeFile(fileValue + 1)
             fileValue = readFile()
         else:
-            tm.testField2 = tm.testField2 + 1
+            tm.testField2 = int(round(float(tm.testField2))) + 1
             tm.save()
     context = {
-        "DBValue": int(tm.testField2),
+        "DBValue": int(float(tm.testField2)),
         "FileValue": int(fileValue),
         "FilePath": str(os.environ.get("TEXTFILE_URL", './DjangoTestWriteFile.txt'))
     }

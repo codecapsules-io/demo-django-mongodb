@@ -77,12 +77,28 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 import dj_database_url
+import dj_mongo_database_url
 
 db_url = os.environ.get("DATABASE_URL", False)
 
+os_mongo_url = os.environ.get("DATABASE_URL")
+parsed_dj_mongo_url = dj_mongo_database_url.parse(os.environ.get("DATABASE_URL"))
+dj_mongo_url = {}
+dj_mongo_url["ENGINE"] = 'djongo'
+dj_mongo_url["HOST"] = parsed_dj_mongo_url['HOST']
+dj_mongo_url["NAME"] = parsed_dj_mongo_url['NAME']
+dj_mongo_url["ENFORCE_SCHEMA"] = False
+dj_mongo_url['CLIENT'] = {
+    'host': parsed_dj_mongo_url['HOST'],
+    'port': 27017,
+    'username': parsed_dj_mongo_url['USER'],
+    'password': parsed_dj_mongo_url['PASSWORD'],
+    'authSource': 'admin',
+    'authMechanism': 'SCRAM-SHA-256'
+}
 if db_url:
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        'default':  dj_mongo_url,
     }
 else:
 
