@@ -1,6 +1,6 @@
 
 
-Django==3.1.7
+Django==2.2.22
 
 
 dj-database-url==0.5.0
@@ -26,3 +26,8 @@ msql==1.2.2
 whitenoise==5.2.0
 
 cryptography
+
+
+#dj-mongo
+dj-mongo-database-url
+djongo
